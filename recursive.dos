@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wizard SYSTEM "Wizard.dtd">
+
+<wizard>
+	<plugin type="dialogos.plugin.tts">
+	</plugin>
+	<plugin type="dialogos.plugin.sphinx">
+		<att name="language" type="string" value="de_DE"/>
+	</plugin>
+	<graph directed="1" Graphic="1" Layout="points">
+		<att name="width" type="integer" value="750"/>
+		<att name="height" type="integer" value="540"/>
+		<groovyFunctions></groovyFunctions>
+		<grammar id="0ad839a8-5e24-42fe-a606-543c7cc74b99">
+			<name>chained</name>
+			<value>root $input;
+// beware of the naive left-recursive solution (which DialogOS cannot parse).
+// $input =
+//    $zahl { $ = $zahl }
+//  | $input plus  $zahl { $ = $input + $zahl } 
+//  | $input minus $zahl { $ = $input - $zahl }
+// ;
+// insetad, try the slightly more involved right-recursive solution:
+$input = 
+   $zahl { $zahl }
+ | $zahl plus  $input    { $zahl + $input    }
+ | $zahl minus $inputNeg { $zahl - $inputNeg }
+;
+$inputNeg =
+   $zahl { $zahl }
+ | $zahl plus  $inputNeg { $zahl - $inputNeg }
+ | $zahl minus $input    { $zahl - $input    }
+;
+
+$zahl
+ = zero  { $ = 0; }
+ | one   { $ = 1; }
+ | two   { $ = 2; }
+ | three { $ = 3; }
+ | four  { $ = 4; }
+ | five  { $ = 5; }
+ | six   { $ = 6; }
+ | seven { $ = 7; }
+ | eight { $ = 8; }
+ | nine  { $ = 9; };</value>
+		</grammar>
+		<variable uid="f4d7975c-7485-4333-b468-4c57c3ada678">
+			<name>meineZahl</name>
+			<type>int</type>
+			<value>undefined</value>
+		</variable>
+		<node uid="316b8a1a-f221-4245-862f-b6450777b2e8" class="edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode">
+			<graphics x="388" y="160" fill="#b20000"/>
+			<att name="title" type="string" value="Sphinx"/>
+			<att name="language" type="string" value="US English"/>
+			<att name="grammar" type="string" value="0ad839a8-5e24-42fe-a606-543c7cc74b99"/>
+		</node>
+		<node uid="363966c2-1e0c-47a1-ae23-1c70e1adb659" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+			<graphics x="390" y="282" fill="#00b200"/>
+			<att name="title" type="string" value="TTS"/>
+			<att name="voice" type="string" value="cmu-slt-hsmm"/>
+			<att name="prompt" type="text">
+				<value>&quot;The result is &quot; + meineZahl + &quot;.&quot;</value>
+			</att>
+			<att name="prompt_type" type="string" value="expression"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="aba66558-fdcb-427d-9a5a-fb816aea775c" class="com.clt.diamant.graph.nodes.StartNode">
+			<graphics x="370" y="40" fill="#9999ff"/>
+			<att name="title" type="string" value="Start"/>
+		</node>
+		<node uid="c803399c-ad12-46bf-90ee-b60503f6ed18" class="com.clt.diamant.graph.nodes.EndNode">
+			<graphics x="389" y="417" fill="#9999ff"/>
+			<att name="title" type="string" value="Ende"/>
+		</node>
+		<edge src="316b8a1a-f221-4245-862f-b6450777b2e8" tgt="363966c2-1e0c-47a1-ae23-1c70e1adb659">
+			<att name="condition" type="string" value="meineZahl"/>
+		</edge>
+		<edge src="363966c2-1e0c-47a1-ae23-1c70e1adb659" tgt="c803399c-ad12-46bf-90ee-b60503f6ed18">
+		</edge>
+		<edge src="aba66558-fdcb-427d-9a5a-fb816aea775c" tgt="316b8a1a-f221-4245-862f-b6450777b2e8">
+		</edge>
+	</graph>
+</wizard>
