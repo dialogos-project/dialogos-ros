@@ -33,7 +33,7 @@ public class DialogOSNode implements NodeMain {
     }
 
     @Override public GraphName getDefaultNodeName() {
-        return GraphName.of("DialogOS_Node");
+        return GraphName.of("DialogOS_Control");
     }
 
     @Override public void onStart(final ConnectedNode connectedNode) {
