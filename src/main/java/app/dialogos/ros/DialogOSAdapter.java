@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.io.File;
 
 public class DialogOSAdapter {
-    private boolean headless = !System.getProperty("dialogos.showGUI", "true").equals("true");
+    private boolean headless = !System.getProperty("dialogos.showGUI", "false").equals("true");
     private File appDir = Misc.getApplicationDirectory();
     private Executer executor;
     private DocumentWindow<?> window;
