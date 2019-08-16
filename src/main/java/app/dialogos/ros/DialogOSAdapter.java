@@ -48,7 +48,7 @@ public class DialogOSAdapter {
                 } catch (Exception exn) {
                     exn.printStackTrace();
                 }
-            }).start();
+            }, "DialogOSRos-startDialogThread").start();
         }
         if (!headless && window != null)
             SwingUtilities.invokeLater(() -> window.doCommand(SingleDocumentWindow.cmdRun));

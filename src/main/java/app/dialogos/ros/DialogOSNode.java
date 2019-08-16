@@ -26,7 +26,7 @@ import org.ros.node.topic.Subscriber;
  */
 public class DialogOSNode implements NodeMain {
 
-    DialogOSAdapter adapter;
+    final DialogOSAdapter adapter;
 
     public DialogOSNode() {
         adapter = new DialogOSAdapter();
